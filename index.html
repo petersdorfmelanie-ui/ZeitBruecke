@@ -408,33 +408,30 @@
     }
 
     function saveAnswer() {
+      const answerField = document.getElementById('answerField');
+      const questionField = document.getElementById('questionField');
+      const chatBox = document.getElementById('chatBox');
+
+      const answer = answerField.value.trim();
+
+      if (!questionField.value.trim()) {
+        alert('Bitte wähle zuerst eine Frage aus.');
+        return;
+      }
+
+      if (!answer) {
+        alert('Bitte schreibe erst eine Antwort.');
+        return;
+      }
+
       const a = document.createElement('div');
-a.className = 'bubble user';
-a.textContent = answer;
-chatBox.appendChild(a);
+      a.className = 'bubble user';
+      a.textContent = answer;
+      chatBox.appendChild(a);
 
-const reply = document.createElement('div');
-reply.className = 'bubble system';
-
-const question = questionField.value.toLowerCase();
-
-if (question.includes('wichtig')) {
-  reply.textContent = 'Danke, das klingt nach einem sehr bedeutenden Moment in einem Leben.';
-} else if (question.includes('enkeln') || question.includes('kindern')) {
-  reply.textContent = 'Das ist eine schöne Botschaft, die für Kinder und Enkel sehr wertvoll sein kann.';
-} else if (question.includes('familie')) {
-  reply.textContent = 'Familienerinnerungen tragen oft Wärme in sich. Danke, dass du sie festhältst.';
-} else if (question.includes('stolz')) {
-  reply.textContent = 'Darauf stolz zu sein, erzählt viel über die Werte und die Kraft eines Menschen.';
-} else {
-  reply.textContent = 'Danke, dass du diese Erinnerung mit ZeitBrücke teilst.';
-}
-
-chatBox.appendChild(reply);
-
-answerField.value = '';
-chatBox.scrollTop = chatBox.scrollHeight;
-          }
+      answerField.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
   </script>
 </body>
 </html>
