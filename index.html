@@ -9,20 +9,21 @@
     :root {
       --bg: #f7f4ef;
       --surface: #fffdfa;
+      --surface-soft: #f2e7de;
       --text: #1f1a17;
       --muted: #6f675f;
       --line: #e7dfd6;
       --primary: #7a4b38;
       --primary-dark: #5e3728;
       --accent: #d8c2b3;
+      --bubble-user: #ead7ca;
+      --bubble-system: #f8f3ef;
       --shadow: 0 10px 30px rgba(60, 35, 20, 0.08);
       --radius: 20px;
       --max: 1100px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -40,10 +41,11 @@
     header {
       padding: 24px 0;
       border-bottom: 1px solid var(--line);
-      background: rgba(247, 244, 239, 0.9);
+      background: rgba(247, 244, 239, 0.92);
       position: sticky;
       top: 0;
       backdrop-filter: blur(10px);
+      z-index: 10;
     }
 
     .nav {
@@ -105,6 +107,8 @@
       text-decoration: none;
       font-weight: bold;
       transition: 0.2s ease;
+      border: none;
+      cursor: pointer;
     }
 
     .btn-primary {
@@ -122,21 +126,24 @@
       background: var(--surface);
     }
 
-    .card-hero {
+    .card-hero,
+    .card {
       background: var(--surface);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 28px;
+      padding: 24px;
       box-shadow: var(--shadow);
     }
 
-    .card-hero h3 {
+    .card-hero h3,
+    .card h3 {
       margin-top: 0;
       margin-bottom: 12px;
     }
 
-    .card-hero p {
-      margin: 0 0 12px;
+    .card-hero p,
+    .card p {
+      margin: 0 0 10px;
       color: var(--muted);
     }
 
@@ -161,22 +168,107 @@
       gap: 20px;
     }
 
-    .card {
+    .chat-wrap {
       background: var(--surface);
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 24px;
+      border-radius: 28px;
       box-shadow: var(--shadow);
+      overflow: hidden;
     }
 
-    .card h3 {
-      margin-top: 0;
+    .chat-top {
+      padding: 24px;
+      background: linear-gradient(to right, #f4e8df, #fbf7f3);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .chat-top h3 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+    }
+
+    .chat-top p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .question-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 20px 24px 0;
+    }
+
+    .question-btn {
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .question-btn:hover {
+      background: #ead8cb;
+    }
+
+    .chat-box {
+      padding: 24px;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      background: #fffdfa;
+    }
+
+    .bubble {
+      max-width: 80%;
+      padding: 14px 16px;
+      border-radius: 18px;
+      line-height: 1.5;
+    }
+
+    .bubble.system {
+      background: var(--bubble-system);
+      border: 1px solid var(--line);
+      align-self: flex-start;
+    }
+
+    .bubble.user {
+      background: var(--bubble-user);
+      align-self: flex-end;
+    }
+
+    .chat-form {
+      border-top: 1px solid var(--line);
+      padding: 20px 24px 24px;
+      background: #fcf8f5;
+    }
+
+    .chat-form label {
+      display: block;
+      font-weight: bold;
       margin-bottom: 10px;
     }
 
-    .card p {
-      margin: 0;
+    .chat-form textarea {
+      width: 100%;
+      min-height: 120px;
+      resize: vertical;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      padding: 14px;
+      font: inherit;
+      background: white;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .small-note {
       color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 8px;
     }
 
     footer {
@@ -195,6 +287,10 @@
       .hero {
         padding-top: 56px;
       }
+
+      .bubble {
+        max-width: 100%;
+      }
     }
   </style>
 </head>
@@ -210,14 +306,14 @@
     <section class="hero">
       <div class="container hero-box">
         <div>
-          <div class="eyebrow">Die erste Idee von ZeitBrücke</div>
+          <div class="eyebrow">Die Idee hinter ZeitBrücke</div>
           <h1>Was bleibt, wenn ein Mensch nicht mehr da ist?</h1>
           <p class="lead">
             ZeitBrücke soll Erinnerungen, Gedanken, Werte und Lebensgeschichten bewahren – damit Angehörige auch später noch Antworten, Nähe und Stimme spüren können.
           </p>
           <div class="actions">
             <a href="#idee" class="btn btn-primary">Idee ansehen</a>
-            <a href="#vision" class="btn btn-secondary">Vision lesen</a>
+            <a href="#chat" class="btn btn-secondary">Prototyp testen</a>
           </div>
         </div>
 
@@ -254,25 +350,39 @@
       </div>
     </section>
 
-    <section id="vision">
+    <section id="chat">
       <div class="container">
-        <h2 class="section-title">Die Vision</h2>
+        <h2 class="section-title">Erste Erinnerung im Fragen-Chat</h2>
         <p class="section-text">
-          Langfristig könnte ZeitBrücke Menschen helfen, nicht nur Erinnerungen anzusehen, sondern sich in einer neuen Form mit ihnen verbunden zu fühlen – respektvoll, würdevoll und menschlich.
+          So könnte ein erster ZeitBrücke-Prototyp aussehen: Eine Frage wird gestellt, und die Antwort wird wie in einem ruhigen Gespräch festgehalten.
         </p>
 
-        <div class="grid">
-          <div class="card">
-            <h3>Für Familien</h3>
-            <p>Wertvolle Geschichten gehen nicht verloren und bleiben über Generationen zugänglich.</p>
+        <div class="chat-wrap">
+          <div class="chat-top">
+            <h3>ZeitBrücke Gespräch</h3>
+            <p>Wähle eine Frage aus und antworte so, wie du es später bewahren möchtest.</p>
           </div>
-          <div class="card">
-            <h3>Für ältere Menschen</h3>
-            <p>Einfach erzählen, festhalten und das eigene Leben bewusst weitergeben.</p>
+
+          <div class="question-row">
+            <button class="question-btn" onclick="setQuestion('Was war einer der wichtigsten Momente in deinem Leben?')">Wichtiger Lebensmoment</button>
+            <button class="question-btn" onclick="setQuestion('Was möchtest du deinen Kindern oder Enkeln unbedingt mitgeben?')">Botschaft an Kinder</button>
+            <button class="question-btn" onclick="setQuestion('Welche Erinnerung an deine Familie macht dich bis heute glücklich?')">Familienerinnerung</button>
+            <button class="question-btn" onclick="setQuestion('Worauf in deinem Leben bist du besonders stolz?')">Worauf bist du stolz</button>
           </div>
-          <div class="card">
-            <h3>Für die Zukunft</h3>
-            <p>Aus Erinnerungen kann einmal ein geschützter, intelligenter und einfühlsamer Dialog entstehen.</p>
+
+          <div class="chat-box" id="chatBox">
+            <div class="bubble system">Hallo. Ich bin ZeitBrücke. Wähle eine Frage aus und beginne zu erzählen.</div>
+          </div>
+
+          <div class="chat-form">
+            <label for="questionField">Aktuelle Frage</label>
+            <textarea id="questionField" readonly placeholder="Wähle oben eine Frage aus"></textarea>
+
+            <label for="answerField">Deine Antwort</label>
+            <textarea id="answerField" placeholder="Schreibe hier deine Gedanken, Erinnerungen und Geschichten auf..."></textarea>
+
+            <button class="btn btn-primary" onclick="saveAnswer()">Antwort im Gespräch speichern</button>
+            <div class="small-note">Dies ist ein einfacher Prototyp. Die Inhalte bleiben aktuell nur in dieser Sitzung sichtbar.</div>
           </div>
         </div>
       </div>
@@ -281,8 +391,47 @@
 
   <footer>
     <div class="container">
-      ZeitBrücke – erste private Projektseite auf GitHub.
+      ZeitBrücke – erster Fragen-Chat-Prototyp.
     </div>
   </footer>
+
+  <script>
+    function setQuestion(question) {
+      document.getElementById('questionField').value = question;
+      const chatBox = document.getElementById('chatBox');
+
+      const q = document.createElement('div');
+      q.className = 'bubble system';
+      q.textContent = question;
+      chatBox.appendChild(q);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function saveAnswer() {
+      const answerField = document.getElementById('answerField');
+      const questionField = document.getElementById('questionField');
+      const chatBox = document.getElementById('chatBox');
+
+      const answer = answerField.value.trim();
+
+      if (!questionField.value.trim()) {
+        alert('Bitte wähle zuerst eine Frage aus.');
+        return;
+      }
+
+      if (!answer) {
+        alert('Bitte schreibe erst eine Antwort.');
+        return;
+      }
+
+      const a = document.createElement('div');
+      a.className = 'bubble user';
+      a.textContent = answer;
+      chatBox.appendChild(a);
+
+      answerField.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script>
 </body>
 </html>
