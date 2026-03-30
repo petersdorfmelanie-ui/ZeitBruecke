@@ -433,5 +433,33 @@
       chatBox.scrollTop = chatBox.scrollHeight;
     }
   </script>
+  <!-- Familien-Erinnerungen -->
+<section style="max-width:600px;margin:2rem auto;padding:1.5rem;background:#f9f8f5;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+  <h3 style="font-size:1.4rem;margin-bottom:1rem;color:#01696f;">💛 Erinnerungen für die Familie</h3>
+  <p style="color:#7a7974;margin-bottom:1rem;">Wähle eine Frage und teile deine Antwort:</p>
+  <select id="fragen-liste" style="width:100%;padding:0.75rem;border-radius:8px;border:1px solid #dcd9d5;margin-bottom:1rem;font-size:1rem;">
+    <option>Was war dein schönstes Familienfest?</option>
+    <option>Welchen Rat möchtest du deinen Kindern mitgeben?</option>
+    <option>Was war dein größter Lebenstraum?</option>
+    <option>Welches Rezept soll die Familie nicht vergessen?</option>
+  </select>
+  <textarea id="antwort-feld" rows="4" placeholder="Schreibe deine Antwort hier..." style="width:100%;padding:0.75rem;border-radius:8px;border:1px solid #dcd9d5;font-size:1rem;margin-bottom:1rem;resize:vertical;"></textarea>
+  <button onclick="erinnerungSpeichern()" style="background:#01696f;color:white;padding:0.75rem 1.5rem;border:none;border-radius:8px;font-size:1rem;cursor:pointer;">Erinnerung speichern ✓</button>
+  <div id="erinnerungen-liste" style="margin-top:1.5rem;"></div>
+</section>
+
+<script>
+function erinnerungSpeichern() {
+  const frage = document.getElementById('fragen-liste').value;
+  const antwort = document.getElementById('antwort-feld').value.trim();
+  if (!antwort) { alert('Bitte schreibe zuerst eine Antwort!'); return; }
+  const liste = document.getElementById('erinnerungen-liste');
+  const eintrag = document.createElement('div');
+  eintrag.style.cssText = 'background:white;padding:1rem;border-radius:8px;margin-bottom:0.75rem;border-left:3px solid #01696f;';
+  eintrag.innerHTML = `<strong style="color:#01696f;">${frage}</strong><p style="margin-top:0.5rem;color:#28251d;">${antwort}</p>`;
+  liste.prepend(eintrag);
+  document.getElementById('antwort-feld').value = '';
+}
+</script>
 </body>
 </html>
