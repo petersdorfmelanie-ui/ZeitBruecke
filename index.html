@@ -450,13 +450,22 @@
 
 <script>
 function erinnerungSpeichern() {
+  function kiAntwortErzeugen(frage, antwort) {
+  const kurzeAntwort = antwort.length > 120 ? antwort.substring(0, 120) + '...' : antwort;
+  return `Das klingt nach einer besonderen Erinnerung. Zu "${frage}" würdest du vielleicht sagen: "${kurzeAntwort}"`;
+}
   const frage = document.getElementById('fragen-liste').value;
   const antwort = document.getElementById('antwort-feld').value.trim();
   if (!antwort) { alert('Bitte schreibe zuerst eine Antwort!'); return; }
   const liste = document.getElementById('erinnerungen-liste');
   const eintrag = document.createElement('div');
   eintrag.style.cssText = 'background:white;padding:1rem;border-radius:8px;margin-bottom:0.75rem;border-left:3px solid #01696f;';
-  eintrag.innerHTML = `<strong style="color:#01696f;">${frage}</strong><p style="margin-top:0.5rem;color:#28251d;">${antwort}</p>`;
+ const kiText = kiAntwortErzeugen(frage, antwort);
+eintrag.innerHTML = `
+  <strong style="color:#01696f;">${frage}</strong>
+  <p style="margin-top:0.5rem;color:#28251d;">${antwort}</p>
+  <p style="margin-top:0.75rem;color:#7a7974;font-style:italic;">✨ ${kiText}</p>
+`;
   liste.prepend(eintrag);
   document.getElementById('antwort-feld').value = '';
 }
